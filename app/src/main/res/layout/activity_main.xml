@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.vicky.red.redpackets.MainActivity">
+
+   <com.vicky.red.redpackets.view.RedPacketsLayout
+        android:id="@+id/packets_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/holo_blue_bright"/>
+
+   <com.vicky.red.redpackets.view.PeriscopeLayout
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       android:background="#d2d2c9"
+       android:visibility="gone"
+       android:id="@+id/periscope"/>
+</LinearLayout>
