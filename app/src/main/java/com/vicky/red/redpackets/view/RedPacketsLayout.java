@@ -95,6 +95,12 @@ public class RedPacketsLayout extends RelativeLayout {
         imageView.setImageDrawable(mDrawables[mRandom.nextInt(mDrawables.length)]);
         imageView.setRotation(mRandom.nextInt(180));
         addView(imageView);
+        imageView.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                removeView(view);
+            }
+        });
 
         ValueAnimator set = genBezierAnimator(imageView);
         set.start();

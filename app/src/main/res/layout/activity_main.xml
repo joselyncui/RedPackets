@@ -13,10 +13,4 @@
         android:layout_height="match_parent"
         android:background="@android:color/holo_blue_bright"/>
 
-   <com.vicky.red.redpackets.view.PeriscopeLayout
-       android:layout_width="match_parent"
-       android:layout_height="match_parent"
-       android:background="#d2d2c9"
-       android:visibility="gone"
-       android:id="@+id/periscope"/>
 </LinearLayout>
