@@ -7,10 +7,25 @@
     android:orientation="vertical"
     tools:context="com.vicky.red.redpackets.MainActivity">
 
-   <com.vicky.red.redpackets.view.RedPacketsLayout
-        android:id="@+id/packets_layout"
+
+    <Button
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@android:color/holo_blue_bright"/>
+        android:layout_height="40dp"
+        android:id="@+id/btn_bezier"
+        android:text="start bezier activity"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:id="@+id/btn_surfaceview"
+        android:text="start surface activity"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:id="@+id/btn_bezier_surfaceview"
+        android:text="start bezier surface activity"/>
+
+
 
 </LinearLayout>

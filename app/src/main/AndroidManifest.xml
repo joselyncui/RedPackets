@@ -15,6 +15,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".SurfaceActivity"
+            android:label="@string/title_activity_surface"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".BezierActivity"
+            android:label="@string/title_activity_bezier"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".BezierSurfaceActivity"
+            android:label="@string/title_activity_bezier_surface"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

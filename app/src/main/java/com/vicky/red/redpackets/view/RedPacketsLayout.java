@@ -1,6 +1,4 @@
-package com.vicky.red.redpackets.view;/**
- * Created by lenovo on 2016/11/28.
- */
+package com.vicky.red.redpackets.view;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -19,9 +17,11 @@ import android.widget.RelativeLayout;
 import com.vicky.red.redpackets.R;
 
 import java.util.Random;
-import java.util.concurrent.ExecutionException;
+import java.util.concurrent.LinkedBlockingQueue;
 
 /**
+ * 自定义布局通过 属性动画(贝塞尔曲线)实现红包
+ *
  * create by yao.cui at 2016/11/28
  */
 public class RedPacketsLayout extends RelativeLayout {
@@ -39,6 +39,7 @@ public class RedPacketsLayout extends RelativeLayout {
     private Random mRandom = new Random();
 
     private Thread mRainThread;
+    private LinkedBlockingQueue<View> mCacheQueue = new LinkedBlockingQueue();
 
     private boolean isStop;
     private Handler mHandler = new Handler(){
@@ -78,8 +79,6 @@ public class RedPacketsLayout extends RelativeLayout {
 
         mLp = new LayoutParams(dWidth,dHeight);
         mLp.addRule(ALIGN_PARENT_TOP,TRUE);
-
-
     }
 
     @Override
@@ -90,18 +89,24 @@ public class RedPacketsLayout extends RelativeLayout {
     }
 
     private void addPacket(){
-        ImageView imageView = new ImageView(getContext());
-        imageView.setLayoutParams(mLp);
-        imageView.setImageDrawable(mDrawables[mRandom.nextInt(mDrawables.length)]);
-        imageView.setRotation(mRandom.nextInt(180));
-        addView(imageView);
-        imageView.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                removeView(view);
-            }
-        });
+        ImageView imageView= null;
+        if (mCacheQueue.isEmpty()){
+            imageView = new ImageView(getContext());
+            imageView.setLayoutParams(mLp);
+            imageView.setImageDrawable(mDrawables[mRandom.nextInt(mDrawables.length)]);
+            imageView.setRotation(mRandom.nextInt(180));
 
+            imageView.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View view) {
+                    removeView(view);
+                }
+            });
+        } else {
+            imageView = (ImageView) mCacheQueue.poll();
+        }
+
+        addView(imageView);
         ValueAnimator set = genBezierAnimator(imageView);
         set.start();
 
@@ -136,10 +141,9 @@ public class RedPacketsLayout extends RelativeLayout {
         valueAnimator.addUpdateListener(new BezierListener(target));
         valueAnimator.addListener(new AnimaorEndListener(target));
         valueAnimator.setTarget(target);
-        valueAnimator.setDuration(2000);
+        valueAnimator.setDuration(3000);
         valueAnimator.setInterpolator(new AccelerateDecelerateInterpolator());
         return valueAnimator;
-
     }
 
     private PointF getPoint(int scale){
@@ -176,6 +180,8 @@ public class RedPacketsLayout extends RelativeLayout {
         public void onAnimationEnd(Animator animation) {
             super.onAnimationEnd(animation);
             removeView(mTarget);
+
+            mCacheQueue.add(mTarget);
         }
     }
 
