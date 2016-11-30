@@ -55,10 +55,6 @@ public class RedPacketsSurfaceVew extends SurfaceView implements SurfaceHolder.C
             super.handleMessage(msg);
             if (msg.what ==1){
                 addSprites();
-            } else if (msg.what ==2){
-                Bundle data = msg.getData();
-                int position =data.getInt("position");
-                mSprits.remove(position);
             }
         }
     };
