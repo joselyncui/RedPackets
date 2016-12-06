@@ -1,4 +1,4 @@
-package com.vicky.red.redpackets.view;
+package com.vicky.red.redpackets.view.chris;
 
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 
 import com.vicky.red.redpackets.R;
+import com.vicky.red.redpackets.view.chris.BaseGameSurfaceView;
 
 import java.util.ArrayList;
 import java.util.List;

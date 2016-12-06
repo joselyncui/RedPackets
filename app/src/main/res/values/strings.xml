@@ -3,4 +3,5 @@
     <string name="title_activity_surface">SurfaceActivity</string>
     <string name="title_activity_bezier">BezierActivity</string>
     <string name="title_activity_bezier_surface">BezierSurfaceActivity</string>
+    <string name="title_activity_meteor_shower">MeteorShowerActivity</string>
 </resources>

@@ -9,7 +9,7 @@
     tools:context="com.vicky.red.redpackets.BezierSurfaceActivity"
     tools:showIn="@layout/activity_bezier_surface">
 
-    <com.vicky.red.redpackets.view.RedPacketsSurfaceVew
+    <com.vicky.red.redpackets.view.bezier.RedPacketsSurfaceVew
         android:id="@+id/bezier_surface"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

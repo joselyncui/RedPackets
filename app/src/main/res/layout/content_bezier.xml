@@ -9,10 +9,11 @@
     tools:context="com.vicky.red.redpackets.BezierActivity"
     tools:showIn="@layout/activity_bezier">
 
-    <com.vicky.red.redpackets.view.RedPacketsLayout
+    <com.vicky.red.redpackets.view.bezier.RedPacketsLayout
         android:id="@+id/packets_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/holo_blue_bright"/>
+        android:background="@drawable/bg"
+        />
 
 </RelativeLayout>

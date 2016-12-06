@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.vicky.red.redpackets.view;
+package com.vicky.red.redpackets.view.bezier;
 
 import android.animation.TypeEvaluator;
 import android.graphics.PointF;

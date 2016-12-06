@@ -2,39 +2,41 @@ package com.vicky.red.redpackets;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
-import com.vicky.red.redpackets.view.chris.GameSurfaceView;
+import com.vicky.red.redpackets.view.meteorshower.MeteorShowerSurface;
 
-public class SurfaceActivity extends AppCompatActivity {
+public class MeteorShowerActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_surface);
+        setContentView(R.layout.activity_meteor_shower);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        final MeteorShowerSurface meteorShowerSurface = (MeteorShowerSurface) findViewById(R.id.meteor_surface);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                /*Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();*/
+
+
+//                meteorShowerSurface.addMeteor();
             }
         });
 
-        GameSurfaceView view = (GameSurfaceView) findViewById(R.id.game_surfaceview);
-
-        view.setListener(new GameSurfaceView.GameListener() {
+        meteorShowerSurface.post(new Runnable() {
             @Override
-            public void gameOver() {
-                finish();
+            public void run() {
+                meteorShowerSurface.start();
             }
-        }).setDuration(30000).start();
+        });
     }
 
 }

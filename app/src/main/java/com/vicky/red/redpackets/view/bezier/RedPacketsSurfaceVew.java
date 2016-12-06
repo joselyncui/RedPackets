@@ -1,4 +1,4 @@
-package com.vicky.red.redpackets.view;
+package com.vicky.red.redpackets.view.bezier;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -8,7 +8,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PixelFormat;
 import android.graphics.PorterDuff;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
@@ -19,6 +18,7 @@ import android.view.SurfaceView;
 import android.view.View;
 
 import com.vicky.red.redpackets.R;
+import com.vicky.red.redpackets.view.meteorshower.SpriteManager;
 
 import java.util.ArrayList;
 
@@ -48,6 +48,8 @@ public class RedPacketsSurfaceVew extends SurfaceView implements SurfaceHolder.C
     private Paint mPaint;
     private Bitmap mBitmap;
     private ArrayList<Sprites> mSprits = new ArrayList();
+    private SpriteManager spriteManager;
+    private Context context;
 
     private Handler mHandler = new Handler(){
         @Override
@@ -61,20 +63,20 @@ public class RedPacketsSurfaceVew extends SurfaceView implements SurfaceHolder.C
 
     public RedPacketsSurfaceVew(Context context) {
         super(context);
-        init();
+        init(context);
     }
 
     public RedPacketsSurfaceVew(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init();
+        init(context);
     }
 
     public RedPacketsSurfaceVew(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init();
+        init(context);
     }
 
-    private void init(){
+    private void init(Context context){
         this.setZOrderOnTop(true);
         mSurfaceHolder = getHolder();
         mSurfaceHolder.setFormat(PixelFormat.TRANSPARENT);
@@ -84,6 +86,9 @@ public class RedPacketsSurfaceVew extends SurfaceView implements SurfaceHolder.C
         mPaint.setAntiAlias(true);
         mBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.red_envelope);
         setOnTouchListener(this);
+        this.context = context;
+
+
     }
 
     @Override
@@ -91,6 +96,7 @@ public class RedPacketsSurfaceVew extends SurfaceView implements SurfaceHolder.C
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         mHeight = getMeasuredHeight();
         mWidth = getMeasuredWidth();
+        spriteManager = SpriteManager.getInstance(mWidth,mHeight);
     }
 
     @Override
@@ -115,6 +121,7 @@ public class RedPacketsSurfaceVew extends SurfaceView implements SurfaceHolder.C
     private void addSprites(){
         Sprites sprites = new Sprites(mBitmap,mWidth,mHeight);
         mSprits.add(sprites);
+
     }
 
     public void startRain(){

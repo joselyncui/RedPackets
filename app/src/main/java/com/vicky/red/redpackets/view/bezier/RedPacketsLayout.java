@@ -1,4 +1,4 @@
-package com.vicky.red.redpackets.view;
+package com.vicky.red.redpackets.view.bezier;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.vicky.red.redpackets.R;
+import com.vicky.red.redpackets.view.bezier.BezierEvaluator;
 
 import java.util.Random;
 import java.util.concurrent.LinkedBlockingQueue;

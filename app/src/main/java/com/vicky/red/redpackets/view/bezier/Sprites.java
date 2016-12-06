@@ -1,4 +1,4 @@
-package com.vicky.red.redpackets.view;
+package com.vicky.red.redpackets.view.bezier;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -7,8 +7,9 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.PointF;
-import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
+
+import com.vicky.red.redpackets.view.bezier.BezierEvaluator;
 
 import java.util.Random;
 

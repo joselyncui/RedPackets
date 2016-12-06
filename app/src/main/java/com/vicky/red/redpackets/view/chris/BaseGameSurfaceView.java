@@ -1,4 +1,4 @@
-package com.vicky.red.redpackets.view;
+package com.vicky.red.redpackets.view.chris;
 
 import android.annotation.TargetApi;
 import android.content.Context;

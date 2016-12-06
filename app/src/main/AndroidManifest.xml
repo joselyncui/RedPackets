@@ -26,6 +26,10 @@
         <activity
             android:name=".BezierSurfaceActivity"
             android:label="@string/title_activity_bezier_surface"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".MeteorShowerActivity"
+            android:label="@string/title_activity_meteor_shower"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

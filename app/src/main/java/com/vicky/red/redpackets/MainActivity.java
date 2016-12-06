@@ -6,8 +6,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import com.vicky.red.redpackets.view.RedPacketsSurfaceVew;
-
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
     @Override
@@ -18,10 +16,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btnBezier = (Button) findViewById(R.id.btn_bezier);
         Button btnSurface = (Button) findViewById(R.id.btn_surfaceview);
         Button btnBezierSurface = (Button) findViewById(R.id.btn_bezier_surfaceview);
+        Button btnMeteorSurface = (Button) findViewById(R.id.btn_meteor_surfaceview);
 
         btnBezier.setOnClickListener(this);
         btnSurface.setOnClickListener(this);
         btnBezierSurface.setOnClickListener(this);
+        btnMeteorSurface.setOnClickListener(this);
 
     }
 
@@ -39,6 +39,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btn_bezier_surfaceview:
                 Intent bezierSurfaceIntent = new Intent(this,BezierSurfaceActivity.class);
                 startActivity(bezierSurfaceIntent);
+                break;
+            case R.id.btn_meteor_surfaceview:
+                Intent meteorSurfaceIntent = new Intent(this,MeteorShowerActivity.class);
+                startActivity(meteorSurfaceIntent);
                 break;
         }
     }

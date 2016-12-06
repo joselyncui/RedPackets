@@ -26,6 +26,12 @@
         android:id="@+id/btn_bezier_surfaceview"
         android:text="start bezier surface activity"/>
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:id="@+id/btn_meteor_surfaceview"
+        android:text="start meteor surface activity"/>
+
 
 
 </LinearLayout>
