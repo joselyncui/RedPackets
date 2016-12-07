@@ -1,6 +1,4 @@
-package com.vicky.red.redpackets.view.meteorshower;/**
- * Created by lenovo on 2016/12/1.
- */
+package com.vicky.red.redpackets.view.meteorshower;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -39,9 +37,6 @@ public class MeteorShowerSurface extends SurfaceView implements SurfaceHolder.Ca
 
     private int mHeight;
     private int mWidth;
-    private Paint mPaint;
-    private Bitmap[] mBmps;
-    private Random mRandom;
     private Bitmap mScoreBmp;
     private Rect mTargetRect;
     private Rect mOrgRect;
@@ -52,19 +47,6 @@ public class MeteorShowerSurface extends SurfaceView implements SurfaceHolder.Ca
     private SpriteManager mSpriteManager;
     private Context mContext;
 
-    private Handler mHandler = new Handler(){
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            if (msg.what ==1){
-                mSpriteManager.addMeteorSprite();
-            } else if(msg.what==2){
-                mSpriteManager.addLine();
-            } else if (msg.what ==3){
-               mScore++;
-            }
-        }
-    };
 
     public MeteorShowerSurface(Context context) {
         super(context);
@@ -90,15 +72,7 @@ public class MeteorShowerSurface extends SurfaceView implements SurfaceHolder.Ca
         mAddThread = new Thread(new AddMeteorThread());
         mAddLineThread = new Thread(new AddLineThread());
 
-        mPaint = new Paint();
-        mPaint.setAntiAlias(true);
-        mBmps = new Bitmap[5];
-        mBmps[0]= Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.hongb0),150,200,false);
-        mBmps[1]= Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.hongb1),150,200,false);
-        mBmps[2]= Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.hongb2),150,200,false);
-        mBmps[3]= Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.hongb3),150,200,false);
-        mBmps[4]= Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.hongb4),150,200,false);
-        mRandom = new Random();
+
         setOnTouchListener(this);
         mScoreBmp = BitmapFactory.decodeResource(getResources(),R.drawable.hbs);
         mScorePaint = new Paint();
@@ -114,8 +88,8 @@ public class MeteorShowerSurface extends SurfaceView implements SurfaceHolder.Ca
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         this.mWidth = getMeasuredWidth();
         this.mHeight = getMeasuredHeight();
-        mSpriteManager = SpriteManager.getInstance(mWidth,mHeight);
-        mSpriteManager.init(mContext);
+        mSpriteManager = SpriteManager.getInstance();
+        mSpriteManager.init(mContext,mWidth,mHeight);
         mTargetRect = new Rect((int)(mWidth/1.5f),100,mWidth-20,230);
         mOrgRect = new Rect(0,0,mScoreBmp.getWidth(),mScoreBmp.getHeight());
     }
@@ -133,7 +107,6 @@ public class MeteorShowerSurface extends SurfaceView implements SurfaceHolder.Ca
     @Override
     public void surfaceDestroyed(SurfaceHolder surfaceHolder) {
         isGameOver = true;
-        mHandler.removeCallbacksAndMessages(null);
         mSpriteManager.stop();
     }
 
@@ -173,7 +146,7 @@ public class MeteorShowerSurface extends SurfaceView implements SurfaceHolder.Ca
                 BaseSpite sprite = mSpriteManager.isContains(x,y);
                 if (sprite != null){
                     mSpriteManager.addBoom((int)x,(int)y);
-                    mHandler.sendEmptyMessage(3);
+                    mScore++;
                     sprite.stop();
                 }
 
@@ -198,10 +171,17 @@ public class MeteorShowerSurface extends SurfaceView implements SurfaceHolder.Ca
 
                     canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
                     mSpriteManager.draw(canvas);
-                    canvas.drawBitmap(mScoreBmp,mOrgRect,mTargetRect,mPaint);
+                    canvas.drawBitmap(mScoreBmp,mOrgRect,mTargetRect,new Paint());
                     canvas.drawText(mScore+" ",mTargetRect.centerX()-mScoreBounds.width()/2,
                             mTargetRect.centerY()+mScoreBounds.height()/2,mScorePaint);
                     mHolder.unlockCanvasAndPost(canvas);
+
+//                    try {
+//                        Thread.sleep(10);
+//                    } catch (Exception e){
+//                        e.printStackTrace();
+//                    }
+
                 }
             }
         }
@@ -212,11 +192,11 @@ public class MeteorShowerSurface extends SurfaceView implements SurfaceHolder.Ca
         public void run() {
             while (!isGameOver){
                 try {
-                    Thread.sleep(300);
+                    Thread.sleep(90);
                 } catch (Exception e){
                     e.printStackTrace();
                 }
-                mHandler.sendEmptyMessage(1);
+                mSpriteManager.addMeteorSprite();
             }
         }
     }
@@ -226,11 +206,11 @@ public class MeteorShowerSurface extends SurfaceView implements SurfaceHolder.Ca
         public void run() {
             while (!isGameOver){
                 try{
-                    Thread.sleep(200);
+                    Thread.sleep(100);
                 }catch (Exception e){
                     e.printStackTrace();
                 }
-                mHandler.sendEmptyMessage(2);
+                mSpriteManager.addLine();
             }
         }
     }

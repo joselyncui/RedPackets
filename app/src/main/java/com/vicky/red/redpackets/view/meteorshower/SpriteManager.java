@@ -22,49 +22,28 @@ public class SpriteManager {
     private static int pWidth;
     private static int pHeight;
 
-    private Bitmap[] redBmps;
-    private Bitmap[] xianBmps;
-    private Bitmap boomBmp;
-    private Random random;
-    private Paint paint;
     private boolean isOver;
 
-    private ArrayList<BaseSpite> sprites = new ArrayList<>();
+    private ArrayList<BaseSpite>  sprites= new ArrayList<>();
 
     private static class SingleTonHolder {
         private static final SpriteManager INSTANCE = new SpriteManager();
     }
 
-    public static SpriteManager getInstance(int pwidth,int pheight) {
-        pWidth = pwidth;
-        pHeight = pheight;
+    public static SpriteManager getInstance() {
         return SingleTonHolder.INSTANCE;
     }
     
     private SpriteManager() {
-
     }
 
-    public void init(Context context){
+    public void init(Context context,int pwidth,int pheight){
+        this.pWidth = pwidth;
+        this.pHeight = pheight;
+
         isOver = false;
         this.contextRef = new WeakReference<Context>(context);
-        redBmps = new Bitmap[5];
-        redBmps[0] = scaleBmp(BitmapFactory.decodeResource(context.getResources(), R.drawable.hongb0),200);
-        redBmps[1] = scaleBmp(BitmapFactory.decodeResource(context.getResources(), R.drawable.hongb1),200);
-        redBmps[2] = scaleBmp(BitmapFactory.decodeResource(context.getResources(), R.drawable.hongb2),200);
-        redBmps[3] = scaleBmp(BitmapFactory.decodeResource(context.getResources(), R.drawable.hongb3),200);
-        redBmps[4] = scaleBmp(BitmapFactory.decodeResource(context.getResources(), R.drawable.hongb4),200);
-//        redBmps[5] = scaleBmp(BitmapFactory.decodeResource(context.getResources(),R.drawable.xian1),250);
-//        redBmps[6] = scaleBmp(BitmapFactory.decodeResource(context.getResources(),R.drawable.xian2),250);
 
-        boomBmp = scaleBmp(BitmapFactory.decodeResource(context.getResources(),R.drawable.boom),200);
-
-        xianBmps = new Bitmap[2];
-        xianBmps[0] = scaleBmp(BitmapFactory.decodeResource(context.getResources(),R.drawable.xian1),350);
-        xianBmps[1] = scaleBmp(BitmapFactory.decodeResource(context.getResources(),R.drawable.xian2),350);
-
-        random = new Random();
-        paint = new Paint();
     }
 
     /**
@@ -74,8 +53,7 @@ public class SpriteManager {
         if (isOver){
             return;
         }
-        MeteorSprite sprite = new MeteorSprite();
-        sprite.init(redBmps[getRdmInt(0,redBmps.length)],paint,pWidth,pHeight,145);
+        MeteorSprite sprite = new MeteorSprite(contextRef.get(),pWidth,pHeight);
         sprites.add(sprite);
     }
 
@@ -83,8 +61,7 @@ public class SpriteManager {
         if (isOver){
             return;
         }
-        BoomSprite boomSprite = new BoomSprite();
-        boomSprite.init(boomBmp,paint,pWidth,pHeight,0);
+        BoomSprite boomSprite = new BoomSprite(contextRef.get(),pWidth,pHeight);
         boomSprite.setPosition(x,y);
         sprites.add(boomSprite);
     }
@@ -93,8 +70,8 @@ public class SpriteManager {
         if (isOver){
             return;
         }
-        LineSprite lineSprite = new LineSprite();
-        lineSprite.init(xianBmps[random.nextInt(xianBmps.length)],paint,pWidth,pHeight,150);
+        LineSprite lineSprite = new LineSprite(contextRef.get(),pWidth,pHeight);
+
         sprites.add(lineSprite);
     }
 
@@ -142,37 +119,12 @@ public class SpriteManager {
      * 回收
      */
     public void recycle(){
-        for (int i = 0, size = redBmps.length; i< size;i++){
-            recycleBmp(redBmps[i]);
-        }
-
-        recycleBmp(boomBmp);
-        for (int i = 0, size = xianBmps.length; i < size;i++){
-            recycleBmp(xianBmps[i]);
-        }
 
         for (int i = 0,size = sprites.size();i< size;i++){
             sprites.get(i).recycle();
         }
-
         sprites.clear();
     }
-    private int getRdmInt(int start, int end){
-        return start + random.nextInt(end-start);
-    }
 
-    private Bitmap scaleBmp(Bitmap srcBmp, int targetWidth){
-        int height = targetWidth* srcBmp.getHeight()/srcBmp.getWidth() ;
-        Bitmap newBmp = Bitmap.createScaledBitmap(srcBmp,targetWidth,height,false);
-        srcBmp.recycle();
-        return newBmp;
-    }
-
-    private void recycleBmp(Bitmap bmp){
-        if (bmp != null && !bmp.isRecycled()){
-            bmp.recycle();
-            bmp = null;
-        }
-    }
 
 }

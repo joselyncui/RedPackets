@@ -96,7 +96,8 @@ public class RedPacketsSurfaceVew extends SurfaceView implements SurfaceHolder.C
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         mHeight = getMeasuredHeight();
         mWidth = getMeasuredWidth();
-        spriteManager = SpriteManager.getInstance(mWidth,mHeight);
+        spriteManager = SpriteManager.getInstance();
+        spriteManager.init(context,mWidth,mHeight);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.vicky.red.redpackets.view.meteorshower;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -21,26 +22,22 @@ public abstract class BaseSpite {
     protected Paint paint;
     protected int width;
     protected int height;
-    protected int x;
-    protected int y;
+
+    protected int[] point = new int[2];
     protected int angle;
     protected Bitmap srcBmp;
     protected int startX;
     private int dif;
     protected boolean clickable;
+    protected int time;
 
-    public BaseSpite(){}
-
-    public void init(Bitmap srcBmp,Paint paint,int pWidth,int pHeihgt,int angle){
-        this.srcBmp = srcBmp;
-        this.paint = paint;
+    public BaseSpite(Context context,int pWidth, int pHeight){
         this.pWidth = pWidth;
-        this.pHeight = pHeihgt;
-        this.angle = angle;
-        this.width = srcBmp.getWidth();
-        this.height = srcBmp.getHeight();
+        this.pHeight = pHeight;
         this.random = new Random();
+        this.paint = new Paint();
     }
+
     /**
      * 用于绘制界面展示内容
      * @param canvas
@@ -49,12 +46,14 @@ public abstract class BaseSpite {
 
     public abstract void stop();
 
-    public abstract void recycle();
+    public void recycle(){
+        recycleBmp(srcBmp);
+    };
 
     protected int[] newPosition(boolean isRandom,int x,int y){
         int[] point = new int[2];
         if (isRandom){
-            startX = pWidth/3+random.nextInt((int)(pWidth*1.5f));
+            startX = pWidth/5+random.nextInt((int)(pWidth*1.5f));
 
             point[0] = startX;
 
@@ -79,12 +78,23 @@ public abstract class BaseSpite {
      * @return
      */
     public boolean isContains(float x, float y){
-        return this.x-dif < x && this.x+dif + width > x && this.y-dif< y && this.y+dif +height>y;
+        return this.point[0]-dif < x && this.point[0]+dif + width > x
+                && this.point[1]-dif< y && this.point[1]+dif +height>y;
     };
 
     protected void recycleBmp(Bitmap bitmap){
         if (bitmap!= null && !bitmap.isRecycled()){
             bitmap.recycle();
         }
+    }
+
+    protected Bitmap scaleBmp(Bitmap srcBmp, int targetWidth,boolean recycle){
+        int height = targetWidth* srcBmp.getHeight()/srcBmp.getWidth() ;
+        Bitmap newBmp = Bitmap.createScaledBitmap(srcBmp,targetWidth,height,false);
+        if (recycle){
+            srcBmp.recycle();
+        }
+
+        return newBmp;
     }
 }

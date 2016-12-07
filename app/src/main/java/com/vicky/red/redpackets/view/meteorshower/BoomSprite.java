@@ -5,67 +5,53 @@ package com.vicky.red.redpackets.view.meteorshower;/**
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
+import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+
+import com.vicky.red.redpackets.R;
+import com.vicky.red.redpackets.util.DensityUtil;
 
 /**
  * create by yao.cui at 2016/12/2
  */
 public class BoomSprite extends BaseSpite {
-    private ValueAnimator valueAnimator;
-    private float scale;
-    private int x;
-    private int y;
 
-    @Override
-    public void recycle() {
+    private float scale = 0.1f;
+
+    public BoomSprite(Context context, int pWidth, int pHeight){
+        super(context,pWidth,pHeight);
+        Bitmap bmp = BitmapFactory.decodeResource(context.getResources(), R.drawable.boom);
+        srcBmp = scaleBmp(bmp, DensityUtil.dp2px(context,100),true);
 
     }
 
     @Override
     public void stop() {
-        if (valueAnimator!= null){
-            valueAnimator.cancel();
-        }
-        isOver = true;
+
     }
 
     public void setPosition(int x, int y){
-        this.x = x;
-        this.y = y;
+        point[0] = x;
+        point[1]= y;
     }
     @Override
     public void draw(Canvas canvas) {
+        if (scale >= 1){
+            isOver = true;
+            return;
+        }
+
         canvas.save();
+
         int scaleWidth = (int)(srcBmp.getWidth() * scale);
-        int scaleHeight = (int)(srcBmp.getHeight() * scale);
+        scale += 0.1f;
 
-        Bitmap newBmp = Bitmap.createScaledBitmap(srcBmp,scaleWidth,scaleHeight,false);
-        canvas.drawBitmap(newBmp,x-newBmp.getWidth()/2,y-newBmp.getHeight()/2,paint);
+        Bitmap newBmp = scaleBmp(srcBmp,scaleWidth,false);
+        canvas.drawBitmap(newBmp,point[0]-newBmp.getWidth()/2,point[1]-newBmp.getHeight()/2,paint);
         canvas.restore();
-        newBmp.recycle();
     }
 
-    @Override
-    public void init(Bitmap srcBmp, Paint paint, int pWidth, int pHeihgt, int angle) {
-        super.init(srcBmp,paint,pWidth,pHeihgt,angle);
-
-        valueAnimator = ValueAnimator.ofFloat(0.1f,1);
-        valueAnimator.setDuration(300);
-        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                scale = (float)valueAnimator.getAnimatedValue();
-            }
-        });
-        valueAnimator.addListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                super.onAnimationEnd(animation);
-                isOver = true;
-            }
-        });
-        valueAnimator.start();
-    }
 }
