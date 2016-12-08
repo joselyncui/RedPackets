@@ -1,20 +1,15 @@
-package com.vicky.red.redpackets.view.meteorshower;/**
- * Created by lenovo on 2016/12/2.
- */
+package com.vicky.red.redpackets.view.meteorshower;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Paint;
 
 import com.vicky.red.redpackets.R;
 import com.vicky.red.redpackets.util.DensityUtil;
 
 /**
+ * 爆炸效果的精灵
  * create by yao.cui at 2016/12/2
  */
 public class BoomSprite extends BaseSpite {

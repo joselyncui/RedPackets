@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.Rect;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextPaint;
@@ -28,23 +29,45 @@ import java.util.Random;
 public class MeteorShowerSurface extends SurfaceView implements SurfaceHolder.Callback,View.OnTouchListener{
     private final String TAG="MeteorShowerSurface";
 
-    private Thread mDrawThread; // thread to loop drawing
-    private Thread mAddThread; // thread to add redpacket
-    private Thread mAddLineThread; //thread to add line image
+    private Thread mDrawThread; // 用来绘制的线程
+    private Thread mAddThread; // 用于添加红包的线程
+    private Thread mAddLineThread; //用于添加流星线的线程
 
     private boolean isGameOver = false;
     private SurfaceHolder mHolder;
 
-    private int mHeight;//view height
-    private int mWidth;//view width
+    private int mHeight;//该surface的高度
+    private int mWidth;//该surface的宽度
 
+    private int mScore;//点中红包数量
 
-    private int mScore;
-
-    private int redCount;//the count of redpacket
+    private int mRedCount = 100;//红包数量
+    private int mDuration = 10*1000;//红包雨时长
 
     private SpriteManager mSpriteManager;
     private Context mContext;
+    //倒计时
+    private CountDownTimer mCountDownTimer;
+    private GameListener mGameListener;
+    private int addPacketInterval;
+
+    public interface GameListener{
+        /**
+         * 开始之前调用
+         */
+        void preGame();
+
+        /**
+         * 开始种，倒计时循环调用
+         */
+        void inGameInterval();
+
+        /**
+         * 游戏完成即倒计时结束调用
+         * @param score
+         */
+        void postGame(int score);
+    }
 
 
     public MeteorShowerSurface(Context context) {
@@ -71,9 +94,10 @@ public class MeteorShowerSurface extends SurfaceView implements SurfaceHolder.Ca
         mAddThread = new Thread(new AddMeteorThread());
         mAddLineThread = new Thread(new AddLineThread());
 
-
         setOnTouchListener(this);
-
+        if (mGameListener != null){
+            mGameListener.preGame();
+        }
 
     }
 
@@ -84,7 +108,6 @@ public class MeteorShowerSurface extends SurfaceView implements SurfaceHolder.Ca
         this.mHeight = getMeasuredHeight();
         mSpriteManager = SpriteManager.getInstance();
         mSpriteManager.init(mContext,mWidth,mHeight);
-
     }
 
     @Override
@@ -104,9 +127,54 @@ public class MeteorShowerSurface extends SurfaceView implements SurfaceHolder.Ca
     }
 
     /**
+     * 设置红包雨时长
+     * @param duration 毫秒
+     * @return
+     */
+    public MeteorShowerSurface setDuration(int duration){
+        this.mDuration = duration;
+        mCountDownTimer = new CountDownTimer(duration,1000) {
+            @Override
+            public void onTick(long l) {
+                mSpriteManager.updateTime((int)(l/1000));
+                if (mGameListener != null){
+                    mGameListener.inGameInterval();
+                }
+            }
+
+            @Override
+            public void onFinish() {
+                mSpriteManager.updateTime(0);
+                isGameOver = true;
+                if (mGameListener != null){
+                    mGameListener.postGame(mScore);
+                }
+            }
+        };
+        return this;
+    }
+
+    /**
+     * 设置红包数量
+     * @param count
+     * @return
+     */
+    public MeteorShowerSurface setRedCount(int count){
+        this.mRedCount = count;
+        return this;
+    }
+
+    public void setmGameListener(GameListener listener){
+        this.mGameListener = listener;
+    }
+    /**
      * 开始绘制线程
      */
     public void start(){
+        if (mRedCount<=0){
+            return;
+        }
+        addPacketInterval = mDuration / mRedCount;
         if (mDrawThread!= null){
             mDrawThread.start();
         }
@@ -116,11 +184,11 @@ public class MeteorShowerSurface extends SurfaceView implements SurfaceHolder.Ca
         if (mAddLineThread != null){
             mAddLineThread.start();
         }
+
+        //开始倒计时
+        mCountDownTimer.start();
     }
 
-    public void stop(){
-        isGameOver = true;
-    }
 
     private void clean(){
         mSpriteManager.cleanData();
@@ -170,13 +238,14 @@ public class MeteorShowerSurface extends SurfaceView implements SurfaceHolder.Ca
                     mHolder.unlockCanvasAndPost(canvas);
 
 //                    try {
-//                        Thread.sleep(10);
+//                        Thread.sleep(5);
 //                    } catch (Exception e){
 //                        e.printStackTrace();
 //                    }
-
                 }
             }
+
+            mSpriteManager.stop();
         }
     }
 
@@ -184,12 +253,13 @@ public class MeteorShowerSurface extends SurfaceView implements SurfaceHolder.Ca
         @Override
         public void run() {
             while (!isGameOver){
+                mSpriteManager.addMeteorSprite();
                 try {
-                    Thread.sleep(90);
+                    Thread.sleep(addPacketInterval);
                 } catch (Exception e){
                     e.printStackTrace();
                 }
-                mSpriteManager.addMeteorSprite();
+
             }
         }
     }
@@ -198,12 +268,13 @@ public class MeteorShowerSurface extends SurfaceView implements SurfaceHolder.Ca
         @Override
         public void run() {
             while (!isGameOver){
+                mSpriteManager.addLine();
                 try{
                     Thread.sleep(100);
                 }catch (Exception e){
                     e.printStackTrace();
                 }
-                mSpriteManager.addLine();
+
             }
         }
     }

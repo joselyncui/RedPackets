@@ -1,6 +1,4 @@
-package com.vicky.red.redpackets.view.meteorshower;/**
- * Created by lenovo on 2016/12/8.
- */
+package com.vicky.red.redpackets.view.meteorshower;
 
 import android.content.Context;
 import android.graphics.BitmapFactory;
@@ -15,22 +13,21 @@ import com.vicky.red.redpackets.util.DensityUtil;
 /**
  * create by yao.cui at 2016/12/8
  */
-public class ScoreSprite extends BaseSpite {
-
+public class TimerSprite extends BaseSpite {
     private Paint txtPaint;
     private Rect mScoreBounds = new Rect();
     private Rect mTargetRect;
     private Rect mOrgRect;
-    private int score;
+    private int time;//倒计时还剩多少秒
 
-    public ScoreSprite(Context context, int pWidth, int pHeight){
+    public TimerSprite(Context context,int pWidth, int pHeight){
         super(context,pWidth,pHeight);
+        srcBmp = BitmapFactory.decodeResource(context.getResources(), R.drawable.coutdown);
 
-        srcBmp = BitmapFactory.decodeResource(context.getResources(), R.drawable.hbs);
-        int targetWidth =(int) (pWidth/3f);
+        int targetWidth =(int) (pWidth/2.5f);
         int targetHeight = targetWidth* srcBmp.getHeight()/srcBmp.getWidth();
-        mTargetRect = new Rect(pWidth-targetWidth-30,DensityUtil.dp2px(context,10)
-                ,pWidth-30,DensityUtil.dp2px(context,10)+targetHeight);
+        mTargetRect = new Rect(30, DensityUtil.dp2px(context,10)
+                ,targetWidth+30,DensityUtil.dp2px(context,10)+targetHeight);
         mOrgRect = new Rect(0,0,srcBmp.getWidth(),srcBmp.getHeight());
 
         txtPaint = new Paint();
@@ -40,27 +37,25 @@ public class ScoreSprite extends BaseSpite {
         txtPaint.getTextBounds("000",0,3,mScoreBounds);
     }
 
-    /**
-     * 更新分数
-     * @param score
-     */
-    public void updateScore(int score){
-        this.score = score;
-    }
 
     @Override
     public void draw(Canvas canvas) {
         canvas.drawBitmap(srcBmp,mOrgRect,mTargetRect,new Paint());
-        canvas.drawText(score+" ",mTargetRect.centerX()-mScoreBounds.width()/2,
+        canvas.drawText(time+" ",mTargetRect.centerX()-mScoreBounds.width()/2,
                 mTargetRect.centerY()+mScoreBounds.height()/2,txtPaint);
-    }
-
-    @Override
-    public void stop() {
     }
 
     @Override
     public void recycle() {
         super.recycle();
+    }
+
+    @Override
+    public void stop() {
+        isOver = true;
+    }
+
+    public void updateTime(int time){
+        this.time = time;
     }
 }

@@ -16,6 +16,7 @@ import com.vicky.red.redpackets.util.DensityUtil;
 import java.util.Random;
 
 /**
+ * 红包雨精灵
  * create by yao.cui at 2016/12/1
  */
 public class MeteorSprite extends LineAnimSprite {
@@ -46,6 +47,7 @@ public class MeteorSprite extends LineAnimSprite {
     @Override
     protected void updatePosition() {
         super.updatePosition();
+        //精灵滑出屏幕标记可完成，使其被回收
         if (point[0] + srcBmp.getWidth()< 0){
             isOver = true;
         }

@@ -34,7 +34,7 @@ public class MeteorShowerActivity extends AppCompatActivity {
         meteorShowerSurface.post(new Runnable() {
             @Override
             public void run() {
-                meteorShowerSurface.start();
+                meteorShowerSurface.setDuration(10*1000).setRedCount(100).start();
             }
         });
     }

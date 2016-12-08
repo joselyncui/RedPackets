@@ -26,6 +26,7 @@ public class SpriteManager {
 
     private ArrayList<BaseSpite>  sprites= new ArrayList<>();
     private ScoreSprite scoreSprite;
+    private TimerSprite timerSprite;
 
     private static class SingleTonHolder {
         private static final SpriteManager INSTANCE = new SpriteManager();
@@ -45,6 +46,7 @@ public class SpriteManager {
         isOver = false;
         this.contextRef = new WeakReference<Context>(context);
         scoreSprite = new ScoreSprite(contextRef.get(),pWidth,pHeight);
+        timerSprite = new TimerSprite(contextRef.get(),pwidth,pheight);
 
     }
 
@@ -73,12 +75,23 @@ public class SpriteManager {
             return;
         }
         LineSprite lineSprite = new LineSprite(contextRef.get(),pWidth,pHeight);
-
         sprites.add(lineSprite);
     }
 
+    /**
+     * 更新分数
+     * @param score
+     */
     public void updateScore(int score){
         scoreSprite.updateScore(score);
+    }
+
+    /**
+     * 更新倒计时时间
+     * @param time
+     */
+    public void updateTime(int time){
+        timerSprite.updateTime(time);
     }
 
     /**
@@ -86,12 +99,19 @@ public class SpriteManager {
      * @param canvas
      */
     public void draw(Canvas canvas){
+        if (isOver){
+            return;
+        }
         for (int i = 0, size = sprites.size();i < size;i++){
             sprites.get(i).draw(canvas);
         }
         scoreSprite.draw(canvas);
+        timerSprite.draw(canvas);
     }
 
+    /**
+     * 清除脏数据
+     */
     public void cleanData(){
         List<BaseSpite> oldSprites = new ArrayList<>();
 
@@ -135,11 +155,13 @@ public class SpriteManager {
      * 回收
      */
     public void recycle(){
-
         for (int i = 0,size = sprites.size();i< size;i++){
             sprites.get(i).recycle();
         }
         sprites.clear();
+
+        scoreSprite.recycle();
+        timerSprite.recycle();
     }
 
 

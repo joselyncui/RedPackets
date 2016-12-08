@@ -14,6 +14,7 @@ import com.vicky.red.redpackets.util.DensityUtil;
 import java.util.Random;
 
 /**
+ * 流星线精灵
  * create by yao.cui at 2016/12/6
  */
 public class LineSprite extends LineAnimSprite {

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 
 /**
+ * 线性运动的精灵
  * create by yao.cui at 2016/12/7
  */
 public class LineAnimSprite extends BaseSpite {
@@ -38,6 +39,9 @@ public class LineAnimSprite extends BaseSpite {
 
     }
 
+    /**
+     * 重置精灵位置数据，用于复用
+     */
     public void reset(){
 
     }
