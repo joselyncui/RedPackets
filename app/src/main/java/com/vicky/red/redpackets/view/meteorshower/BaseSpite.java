@@ -9,7 +9,7 @@ import android.graphics.Point;
 import java.util.Random;
 
 /**
- * 素材基础类
+ *
  *
  * create by yao.cui at 2016/12/1
  */
@@ -17,18 +17,17 @@ public abstract class BaseSpite {
 
     public boolean isOver = false;
     protected Random random;
-    protected int pWidth;
-    protected int pHeight;
+    protected int pWidth;//父容器的宽度
+    protected int pHeight;//父容器的高度
     protected Paint paint;
-    protected int width;
-    protected int height;
+    protected int width;//sprite的宽度
+    protected int height;//sprite的高度
 
-    protected int[] point = new int[2];
-    protected int angle;
+    protected int[] point = new int[2];//sprite的当前的位置
     protected Bitmap srcBmp;
-    protected int startX;
-    private int dif;
-    protected boolean clickable;
+    protected int startX;//sprite的开始位置的x坐标
+    private int dif=10;
+    protected boolean clickable;//用来标记是否可点击
     protected int time;
 
     public BaseSpite(Context context,int pWidth, int pHeight){
@@ -39,7 +38,7 @@ public abstract class BaseSpite {
     }
 
     /**
-     * 用于绘制界面展示内容
+     * 绘制内容
      * @param canvas
      */
     public abstract void draw(Canvas canvas);
@@ -59,7 +58,7 @@ public abstract class BaseSpite {
 
             if (startX > pWidth){
                 point[0] = pWidth + width;
-                point[1] = (int)(Math.abs(Math.tan(angle)) * (startX-point[0]));
+                point[1] = 0;
             }
         } else {
             point[0] = x;

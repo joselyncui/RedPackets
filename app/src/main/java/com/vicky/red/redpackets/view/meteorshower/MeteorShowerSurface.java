@@ -28,21 +28,20 @@ import java.util.Random;
 public class MeteorShowerSurface extends SurfaceView implements SurfaceHolder.Callback,View.OnTouchListener{
     private final String TAG="MeteorShowerSurface";
 
-    private Thread mDrawThread;
-    private Thread mAddThread;
-    private Thread mAddLineThread;
+    private Thread mDrawThread; // thread to loop drawing
+    private Thread mAddThread; // thread to add redpacket
+    private Thread mAddLineThread; //thread to add line image
 
     private boolean isGameOver = false;
     private SurfaceHolder mHolder;
 
-    private int mHeight;
-    private int mWidth;
-    private Bitmap mScoreBmp;
-    private Rect mTargetRect;
-    private Rect mOrgRect;
-    private int mScore ;
-    private Paint mScorePaint;
-    private Rect mScoreBounds = new Rect();
+    private int mHeight;//view height
+    private int mWidth;//view width
+
+
+    private int mScore;
+
+    private int redCount;//the count of redpacket
 
     private SpriteManager mSpriteManager;
     private Context mContext;
@@ -74,12 +73,7 @@ public class MeteorShowerSurface extends SurfaceView implements SurfaceHolder.Ca
 
 
         setOnTouchListener(this);
-        mScoreBmp = BitmapFactory.decodeResource(getResources(),R.drawable.hbs);
-        mScorePaint = new Paint();
-        mScorePaint.setAntiAlias(true);
-        mScorePaint.setColor(Color.RED);
-        mScorePaint.setTextSize(80);
-        mScorePaint.getTextBounds("000",0,1,mScoreBounds);
+
 
     }
 
@@ -90,8 +84,7 @@ public class MeteorShowerSurface extends SurfaceView implements SurfaceHolder.Ca
         this.mHeight = getMeasuredHeight();
         mSpriteManager = SpriteManager.getInstance();
         mSpriteManager.init(mContext,mWidth,mHeight);
-        mTargetRect = new Rect((int)(mWidth/1.5f),100,mWidth-20,230);
-        mOrgRect = new Rect(0,0,mScoreBmp.getWidth(),mScoreBmp.getHeight());
+
     }
 
     @Override
@@ -132,6 +125,7 @@ public class MeteorShowerSurface extends SurfaceView implements SurfaceHolder.Ca
     private void clean(){
         mSpriteManager.cleanData();
     }
+
     private void recycle(){
         Log.i(TAG,"=====recycle");
         mSpriteManager.recycle();
@@ -147,6 +141,7 @@ public class MeteorShowerSurface extends SurfaceView implements SurfaceHolder.Ca
                 if (sprite != null){
                     mSpriteManager.addBoom((int)x,(int)y);
                     mScore++;
+                    mSpriteManager.updateScore(mScore);
                     sprite.stop();
                 }
 
@@ -171,9 +166,7 @@ public class MeteorShowerSurface extends SurfaceView implements SurfaceHolder.Ca
 
                     canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
                     mSpriteManager.draw(canvas);
-                    canvas.drawBitmap(mScoreBmp,mOrgRect,mTargetRect,new Paint());
-                    canvas.drawText(mScore+" ",mTargetRect.centerX()-mScoreBounds.width()/2,
-                            mTargetRect.centerY()+mScoreBounds.height()/2,mScorePaint);
+
                     mHolder.unlockCanvasAndPost(canvas);
 
 //                    try {

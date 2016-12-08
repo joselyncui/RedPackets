@@ -25,6 +25,7 @@ public class SpriteManager {
     private boolean isOver;
 
     private ArrayList<BaseSpite>  sprites= new ArrayList<>();
+    private ScoreSprite scoreSprite;
 
     private static class SingleTonHolder {
         private static final SpriteManager INSTANCE = new SpriteManager();
@@ -43,6 +44,7 @@ public class SpriteManager {
 
         isOver = false;
         this.contextRef = new WeakReference<Context>(context);
+        scoreSprite = new ScoreSprite(contextRef.get(),pWidth,pHeight);
 
     }
 
@@ -75,6 +77,10 @@ public class SpriteManager {
         sprites.add(lineSprite);
     }
 
+    public void updateScore(int score){
+        scoreSprite.updateScore(score);
+    }
+
     /**
      * 绘制
      * @param canvas
@@ -83,6 +89,7 @@ public class SpriteManager {
         for (int i = 0, size = sprites.size();i < size;i++){
             sprites.get(i).draw(canvas);
         }
+        scoreSprite.draw(canvas);
     }
 
     public void cleanData(){
@@ -100,6 +107,12 @@ public class SpriteManager {
         }
     }
 
+    /**
+     * 判断坐标是否点击到某个精灵
+     * @param x
+     * @param y
+     * @return
+     */
     public BaseSpite isContains(float x, float y){
         for (int i = 0, size = sprites.size(); i < size; i++){
             BaseSpite baseSpite = sprites.get(i);
@@ -110,6 +123,9 @@ public class SpriteManager {
         return null;
     }
 
+    /**
+     * 停止
+     */
     public void stop(){
         isOver = true;
         recycle();
