@@ -1,32 +1,26 @@
 package com.vicky.red.redpackets.view.meteorshower;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Paint;
-
-import com.vicky.red.redpackets.R;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 /**
  * create by yao.cui at 2016/12/2
  */
 public class SpriteManager {
 
-    private WeakReference<Context> contextRef;
-    private static int pWidth;
-    private static int pHeight;
+    private WeakReference<Context> mContextRef;
+    private static int mPWidth;
+    private static int mPHeight;
 
     private boolean isOver;
 
-    private ArrayList<BaseSpite>  sprites= new ArrayList<>();
-    private ScoreSprite scoreSprite;
-    private TimerSprite timerSprite;
+    private ArrayList<BaseSpite> mSprites = new ArrayList<>();
+    private ScoreSprite mScoreSprite;
+    private TimerSprite mSimerSprite;
 
     private static class SingleTonHolder {
         private static final SpriteManager INSTANCE = new SpriteManager();
@@ -40,13 +34,13 @@ public class SpriteManager {
     }
 
     public void init(Context context,int pwidth,int pheight){
-        this.pWidth = pwidth;
-        this.pHeight = pheight;
+        this.mPWidth = pwidth;
+        this.mPHeight = pheight;
 
         isOver = false;
-        this.contextRef = new WeakReference<Context>(context);
-        scoreSprite = new ScoreSprite(contextRef.get(),pWidth,pHeight);
-        timerSprite = new TimerSprite(contextRef.get(),pwidth,pheight);
+        this.mContextRef = new WeakReference<Context>(context);
+        mScoreSprite = new ScoreSprite(mContextRef.get(), mPWidth, mPHeight);
+        mSimerSprite = new TimerSprite(mContextRef.get(),pwidth,pheight);
 
     }
 
@@ -57,25 +51,25 @@ public class SpriteManager {
         if (isOver){
             return;
         }
-        MeteorSprite sprite = new MeteorSprite(contextRef.get(),pWidth,pHeight);
-        sprites.add(sprite);
+        MeteorSprite sprite = new MeteorSprite(mContextRef.get(), mPWidth, mPHeight);
+        mSprites.add(sprite);
     }
 
     public void addBoom(int x, int y){
         if (isOver){
             return;
         }
-        BoomSprite boomSprite = new BoomSprite(contextRef.get(),pWidth,pHeight);
+        BoomSprite boomSprite = new BoomSprite(mContextRef.get(), mPWidth, mPHeight);
         boomSprite.setPosition(x,y);
-        sprites.add(boomSprite);
+        mSprites.add(boomSprite);
     }
 
     public void addLine(){
         if (isOver){
             return;
         }
-        LineSprite lineSprite = new LineSprite(contextRef.get(),pWidth,pHeight);
-        sprites.add(lineSprite);
+        LineSprite lineSprite = new LineSprite(mContextRef.get(), mPWidth, mPHeight);
+        mSprites.add(lineSprite);
     }
 
     /**
@@ -83,7 +77,7 @@ public class SpriteManager {
      * @param score
      */
     public void updateScore(int score){
-        scoreSprite.updateScore(score);
+        mScoreSprite.updateScore(score);
     }
 
     /**
@@ -91,7 +85,7 @@ public class SpriteManager {
      * @param time
      */
     public void updateTime(int time){
-        timerSprite.updateTime(time);
+        mSimerSprite.updateTime(time);
     }
 
     /**
@@ -102,11 +96,11 @@ public class SpriteManager {
         if (isOver){
             return;
         }
-        for (int i = 0, size = sprites.size();i < size;i++){
-            sprites.get(i).draw(canvas);
+        for (int i = 0, size = mSprites.size(); i < size; i++){
+            mSprites.get(i).draw(canvas);
         }
-        scoreSprite.draw(canvas);
-        timerSprite.draw(canvas);
+        mScoreSprite.draw(canvas);
+        mSimerSprite.draw(canvas);
     }
 
     /**
@@ -115,15 +109,15 @@ public class SpriteManager {
     public void cleanData(){
         List<BaseSpite> oldSprites = new ArrayList<>();
 
-        for (int i = 0, size = sprites.size(); i < size;i++){
-            if (sprites.get(i).isOver){
-                oldSprites.add(sprites.get(i));
+        for (int i = 0, size = mSprites.size(); i < size; i++){
+            if (mSprites.get(i).isOver){
+                oldSprites.add(mSprites.get(i));
             }
         }
 
         for (int i = 0, size=oldSprites.size();i<size;i++){
             oldSprites.get(i).recycle();
-            sprites.remove(oldSprites.get(i));
+            mSprites.remove(oldSprites.get(i));
         }
     }
 
@@ -134,8 +128,8 @@ public class SpriteManager {
      * @return
      */
     public BaseSpite isContains(float x, float y){
-        for (int i = 0, size = sprites.size(); i < size; i++){
-            BaseSpite baseSpite = sprites.get(i);
+        for (int i = 0, size = mSprites.size(); i < size; i++){
+            BaseSpite baseSpite = mSprites.get(i);
             if (baseSpite.isContains(x,y)&& baseSpite.clickable){
                 return baseSpite;
             };
@@ -155,13 +149,13 @@ public class SpriteManager {
      * 回收
      */
     public void recycle(){
-        for (int i = 0,size = sprites.size();i< size;i++){
-            sprites.get(i).recycle();
+        for (int i = 0, size = mSprites.size(); i< size; i++){
+            mSprites.get(i).recycle();
         }
-        sprites.clear();
+        mSprites.clear();
 
-        scoreSprite.recycle();
-        timerSprite.recycle();
+        mScoreSprite.recycle();
+        mSimerSprite.recycle();
     }
 
 

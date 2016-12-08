@@ -1,27 +1,16 @@
 package com.vicky.red.redpackets.view.meteorshower;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.PorterDuff;
-import android.graphics.Rect;
 import android.os.CountDownTimer;
-import android.os.Handler;
-import android.os.Message;
-import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
-
-import com.vicky.red.redpackets.R;
-
-import java.util.Random;
 
 /**
  * create by yao.cui at 2016/12/1
@@ -49,7 +38,7 @@ public class MeteorShowerSurface extends SurfaceView implements SurfaceHolder.Ca
     //倒计时
     private CountDownTimer mCountDownTimer;
     private GameListener mGameListener;
-    private int addPacketInterval;
+    private int mAddPacketInterval;
 
     public interface GameListener{
         /**
@@ -174,7 +163,7 @@ public class MeteorShowerSurface extends SurfaceView implements SurfaceHolder.Ca
         if (mRedCount<=0){
             return;
         }
-        addPacketInterval = mDuration / mRedCount;
+        mAddPacketInterval = mDuration / mRedCount;
         if (mDrawThread!= null){
             mDrawThread.start();
         }
@@ -255,7 +244,7 @@ public class MeteorShowerSurface extends SurfaceView implements SurfaceHolder.Ca
             while (!isGameOver){
                 mSpriteManager.addMeteorSprite();
                 try {
-                    Thread.sleep(addPacketInterval);
+                    Thread.sleep(mAddPacketInterval);
                 } catch (Exception e){
                     e.printStackTrace();
                 }

@@ -8,8 +8,8 @@ import android.graphics.Canvas;
  * create by yao.cui at 2016/12/7
  */
 public class LineAnimSprite extends BaseSpite {
-    protected float ax = -0.5f;
-    protected float ay = 0.8f;
+    protected float mAx = -0.5f;
+    protected float mAy = 0.8f;
 
     public LineAnimSprite(Context context, int pWidth, int pHeihgt) {
         super(context, pWidth, pHeihgt);
@@ -25,8 +25,8 @@ public class LineAnimSprite extends BaseSpite {
 
     protected void updatePosition(){
         time++;
-        point[0] += ax * time;
-        point[1] += ay * time;
+        point[0] += mAx * time;
+        point[1] += mAy * time;
     }
 
     @Override

@@ -1,14 +1,8 @@
 package com.vicky.red.redpackets.view.meteorshower;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.view.animation.AccelerateInterpolator;
 
 import com.vicky.red.redpackets.R;
 import com.vicky.red.redpackets.util.DensityUtil;
@@ -21,22 +15,22 @@ import java.util.Random;
  */
 public class MeteorSprite extends LineAnimSprite {
 
-    private int[] imgIds = new int[]{
+    private int[] mImgIds = new int[]{
         R.drawable.hongb0,
         R.drawable.hongb1,
         R.drawable.hongb2,
         R.drawable.hongb3,
         R.drawable.hongb4
     };
-    private Random random = new Random();
+    private Random mRandom = new Random();
 
     public MeteorSprite(Context context, int pWidth, int pHeihgt) {
         super(context,pWidth,pHeihgt);
         clickable = true;
 
-        int index = random.nextInt(imgIds.length);
-        Bitmap bmp = BitmapFactory.decodeResource(context.getResources(),imgIds[index]);
-        width = DensityUtil.dp2px(context,60)+random.nextInt(DensityUtil.dp2px(context,30));
+        int index = mRandom.nextInt(mImgIds.length);
+        Bitmap bmp = BitmapFactory.decodeResource(context.getResources(), mImgIds[index]);
+        width = DensityUtil.dp2px(context,60)+ mRandom.nextInt(DensityUtil.dp2px(context,30));
         srcBmp = scaleBmp(bmp,width,true);
         bmp.recycle();
         height = srcBmp.getHeight();

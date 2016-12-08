@@ -17,11 +17,11 @@ import com.vicky.red.redpackets.util.DensityUtil;
  */
 public class ScoreSprite extends BaseSpite {
 
-    private Paint txtPaint;
+    private Paint mTxtPaint;
     private Rect mScoreBounds = new Rect();
     private Rect mTargetRect;
     private Rect mOrgRect;
-    private int score;
+    private int mScore;
 
     public ScoreSprite(Context context, int pWidth, int pHeight){
         super(context,pWidth,pHeight);
@@ -33,11 +33,11 @@ public class ScoreSprite extends BaseSpite {
                 ,pWidth-30,DensityUtil.dp2px(context,10)+targetHeight);
         mOrgRect = new Rect(0,0,srcBmp.getWidth(),srcBmp.getHeight());
 
-        txtPaint = new Paint();
-        txtPaint.setAntiAlias(true);
-        txtPaint.setColor(Color.RED);
-        txtPaint.setTextSize(DensityUtil.sp2px(context,20));
-        txtPaint.getTextBounds("000",0,3,mScoreBounds);
+        mTxtPaint = new Paint();
+        mTxtPaint.setAntiAlias(true);
+        mTxtPaint.setColor(Color.RED);
+        mTxtPaint.setTextSize(DensityUtil.sp2px(context,20));
+        mTxtPaint.getTextBounds("000",0,3,mScoreBounds);
     }
 
     /**
@@ -45,14 +45,14 @@ public class ScoreSprite extends BaseSpite {
      * @param score
      */
     public void updateScore(int score){
-        this.score = score;
+        this.mScore = score;
     }
 
     @Override
     public void draw(Canvas canvas) {
         canvas.drawBitmap(srcBmp,mOrgRect,mTargetRect,new Paint());
-        canvas.drawText(score+" ",mTargetRect.centerX()-mScoreBounds.width()/2,
-                mTargetRect.centerY()+mScoreBounds.height()/2,txtPaint);
+        canvas.drawText(mScore +" ",mTargetRect.centerX()-mScoreBounds.width()/2,
+                mTargetRect.centerY()+mScoreBounds.height()/2, mTxtPaint);
     }
 
     @Override

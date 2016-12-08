@@ -9,29 +9,27 @@ import android.graphics.Paint;
 import android.graphics.PointF;
 import android.view.animation.AccelerateDecelerateInterpolator;
 
-import com.vicky.red.redpackets.view.bezier.BezierEvaluator;
-
 import java.util.Random;
 
 /**
  * create by yao.cui at 2016/11/29
  */
 public class Sprites {
-    public int x;
-    public int y;
-    public Bitmap bitmap;
+    public int mX;
+    public int mY;
+    public Bitmap mBitmap;
     public boolean isOver = false;
 
-    private Random random;
+    private Random mRandom;
     private int mParentHeight;
     private int mParentWidth;
     private ValueAnimator mAnimator;
 
     public Sprites(Bitmap bitmap,int pWidth,int pHeight){
-        random = new Random();
-        this.x = random.nextInt(pWidth-bitmap.getWidth());
-        this.y = 0;
-        this.bitmap = bitmap;
+        mRandom = new Random();
+        this.mX = mRandom.nextInt(pWidth-bitmap.getWidth());
+        this.mY = 0;
+        this.mBitmap = bitmap;
         this.mParentWidth = pWidth;
         this.mParentHeight = pHeight;
 
@@ -40,10 +38,10 @@ public class Sprites {
 
     private void initAnimator(){
 
-        PointF point0 = new PointF(random.nextInt(mParentWidth-bitmap.getWidth()),-bitmap.getHeight());
-        PointF point1 = new PointF(point0.x-bitmap.getWidth()+random.nextInt((int)bitmap.getWidth()*2),random.nextInt((mParentHeight-100)/2));
-        PointF point2 = new PointF(point0.x-bitmap.getWidth()+random.nextInt((int)bitmap.getWidth()*2),mParentHeight/2+random.nextInt((mParentHeight/2)));
-        PointF point3 = new PointF(point0.x-bitmap.getWidth()+random.nextInt((int)bitmap.getWidth()*2),mParentHeight);
+        PointF point0 = new PointF(mRandom.nextInt(mParentWidth- mBitmap.getWidth()),-mBitmap.getHeight());
+        PointF point1 = new PointF(point0.x- mBitmap.getWidth()+ mRandom.nextInt((int) mBitmap.getWidth()*2), mRandom.nextInt((mParentHeight-100)/2));
+        PointF point2 = new PointF(point0.x- mBitmap.getWidth()+ mRandom.nextInt((int) mBitmap.getWidth()*2),mParentHeight/2+ mRandom.nextInt((mParentHeight/2)));
+        PointF point3 = new PointF(point0.x- mBitmap.getWidth()+ mRandom.nextInt((int) mBitmap.getWidth()*2),mParentHeight);
 
         BezierEvaluator evaluator = new BezierEvaluator(point1,point2);//传入中间两个点
         mAnimator = ValueAnimator.ofObject(evaluator,point0,point3);//传入开始位置结束位置
@@ -69,18 +67,18 @@ public class Sprites {
         @Override
         public void onAnimationUpdate(ValueAnimator valueAnimator) {
             PointF pointF = (PointF) valueAnimator.getAnimatedValue();
-            x = (int)pointF.x;
-            y = (int)pointF.y;
+            mX = (int)pointF.x;
+            mY = (int)pointF.y;
         }
     }
 
 
 
     public boolean isInner(int x, int y){
-//        Region region = new Region(this.x,this.y,this.x+bitmap.getWidth(),this.y+bitmap.getHeight());
-//        return region.contains(x,y);
+//        Region region = new Region(this.mX,this.mY,this.mX+mBitmap.getWidth(),this.mY+mBitmap.getHeight());
+//        return region.contains(mX,mY);
 
-        return this.x < x && this.x + bitmap.getWidth() > x && this.y< y && this.y +bitmap.getHeight()>y;
+        return this.mX < x && this.mX + mBitmap.getWidth() > x && this.mY < y && this.mY + mBitmap.getHeight()>y;
     }
 
     public void stop(){
@@ -92,6 +90,6 @@ public class Sprites {
     }
 
     public void draw(Canvas canvas, Paint p){
-        canvas.drawBitmap(bitmap,x,y,p);
+        canvas.drawBitmap(mBitmap, mX, mY,p);
     }
 }

@@ -15,7 +15,6 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.vicky.red.redpackets.R;
-import com.vicky.red.redpackets.view.bezier.BezierEvaluator;
 
 import java.util.Random;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -140,7 +139,7 @@ public class RedPacketsLayout extends RelativeLayout {
         ValueAnimator valueAnimator = ValueAnimator.ofObject(evaluator,new PointF(mRandom.nextInt(mWidth-dWidth),-dHeight),
                 new PointF(mRandom.nextInt(mWidth-dWidth),mHeight));//传入开始位置结束位置
         valueAnimator.addUpdateListener(new BezierListener(target));
-        valueAnimator.addListener(new AnimaorEndListener(target));
+        valueAnimator.addListener(new AnimatorEndListener(target));
         valueAnimator.setTarget(target);
         valueAnimator.setDuration(3000);
         valueAnimator.setInterpolator(new AccelerateDecelerateInterpolator());
@@ -170,10 +169,10 @@ public class RedPacketsLayout extends RelativeLayout {
         }
     }
 
-    private class AnimaorEndListener extends AnimatorListenerAdapter{
+    private class AnimatorEndListener extends AnimatorListenerAdapter{
         private View mTarget;
 
-        public AnimaorEndListener(View view) {
+        public AnimatorEndListener(View view) {
             mTarget = view;
         }
 
