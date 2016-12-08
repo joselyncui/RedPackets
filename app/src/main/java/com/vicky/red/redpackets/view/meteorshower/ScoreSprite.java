@@ -15,7 +15,7 @@ import com.vicky.red.redpackets.util.DensityUtil;
 /**
  * create by yao.cui at 2016/12/8
  */
-public class ScoreSprite extends BaseSpite {
+public class ScoreSprite extends BaseSprite {
 
     private Paint mTxtPaint;
     private Rect mScoreBounds = new Rect();

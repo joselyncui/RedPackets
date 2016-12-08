@@ -194,7 +194,7 @@ public class MeteorShowerSurface extends SurfaceView implements SurfaceHolder.Ca
             case MotionEvent.ACTION_DOWN:
                 float x = motionEvent.getX();
                 float y = motionEvent.getY();
-                BaseSpite sprite = mSpriteManager.isContains(x,y);
+                BaseSprite sprite = mSpriteManager.isContains(x,y);
                 if (sprite != null){
                     mSpriteManager.addBoom((int)x,(int)y);
                     mScore++;

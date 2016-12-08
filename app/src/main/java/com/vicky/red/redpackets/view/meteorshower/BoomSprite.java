@@ -12,7 +12,7 @@ import com.vicky.red.redpackets.util.DensityUtil;
  * 爆炸效果的精灵
  * create by yao.cui at 2016/12/2
  */
-public class BoomSprite extends BaseSpite {
+public class BoomSprite extends BaseSprite {
 
     private float scale = 0.1f;
 

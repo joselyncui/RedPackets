@@ -13,7 +13,7 @@ import com.vicky.red.redpackets.util.DensityUtil;
 /**
  * create by yao.cui at 2016/12/8
  */
-public class TimerSprite extends BaseSpite {
+public class TimerSprite extends BaseSprite {
     private Paint mTxtPaint;
     private Rect mScoreBounds = new Rect();
     private Rect mTargetRect;

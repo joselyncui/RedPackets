@@ -13,7 +13,7 @@ import java.util.Random;
  *
  * create by yao.cui at 2016/12/1
  */
-public abstract class BaseSpite {
+public abstract class BaseSprite {
 
     public boolean isOver = false;
     protected Random random;
@@ -30,7 +30,7 @@ public abstract class BaseSpite {
     protected boolean clickable;//用来标记是否可点击
     protected int time;
 
-    public BaseSpite(Context context,int pWidth, int pHeight){
+    public BaseSprite(Context context, int pWidth, int pHeight){
         this.pWidth = pWidth;
         this.pHeight = pHeight;
         this.random = new Random();

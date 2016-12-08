@@ -7,7 +7,7 @@ import android.graphics.Canvas;
  * 线性运动的精灵
  * create by yao.cui at 2016/12/7
  */
-public class LineAnimSprite extends BaseSpite {
+public class LineAnimSprite extends BaseSprite {
     protected float mAx = -0.5f;
     protected float mAy = 0.8f;
 

@@ -18,7 +18,7 @@ public class SpriteManager {
 
     private boolean isOver;
 
-    private ArrayList<BaseSpite> mSprites = new ArrayList<>();
+    private ArrayList<BaseSprite> mSprites = new ArrayList<>();
     private ScoreSprite mScoreSprite;
     private TimerSprite mSimerSprite;
 
@@ -107,7 +107,7 @@ public class SpriteManager {
      * 清除脏数据
      */
     public void cleanData(){
-        List<BaseSpite> oldSprites = new ArrayList<>();
+        List<BaseSprite> oldSprites = new ArrayList<>();
 
         for (int i = 0, size = mSprites.size(); i < size; i++){
             if (mSprites.get(i).isOver){
@@ -127,9 +127,9 @@ public class SpriteManager {
      * @param y
      * @return
      */
-    public BaseSpite isContains(float x, float y){
+    public BaseSprite isContains(float x, float y){
         for (int i = 0, size = mSprites.size(); i < size; i++){
-            BaseSpite baseSpite = mSprites.get(i);
+            BaseSprite baseSpite = mSprites.get(i);
             if (baseSpite.isContains(x,y)&& baseSpite.clickable){
                 return baseSpite;
             };
