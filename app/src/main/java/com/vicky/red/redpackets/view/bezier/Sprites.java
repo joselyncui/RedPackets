@@ -61,14 +61,6 @@ public class Sprites {
         mAnimator.start();
     }
 
-    private PointF getPoint(int scale){
-        PointF pointF = new PointF();
-        pointF.x = random.nextInt(mParentWidth-100);
-
-        pointF.y = random.nextInt((mParentHeight-100)*scale/2);
-        return pointF;
-    }
-
     private class BezierListener implements ValueAnimator.AnimatorUpdateListener{
 
         public BezierListener() {
