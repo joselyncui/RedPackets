@@ -1,5 +1,5 @@
 # RedPackets
-红包雨 暂时只是简单的实现 还没有做封装
+红包雨 暂时只是简单的实现 推荐 accelerate 分支
 
 ![image](https://github.com/joselyncui/RedPackets/blob/master/Screenshot_2.png)
 
